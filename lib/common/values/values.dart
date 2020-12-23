@@ -1,3 +1,4 @@
 library value;
 
-export 'colors.dart';
+export './colors.dart';
+export './radii.dart';
