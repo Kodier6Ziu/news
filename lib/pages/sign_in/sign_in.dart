@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news/common/api/apis.dart';
+import 'package:news/common/entity/user.dart';
 import 'package:news/common/utils/utils.dart';
 import 'package:news/common/values/values.dart';
 import 'package:news/common/widgets/widgets.dart';
@@ -18,7 +20,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   // 执行登录操作
-  _handleSignIn() {
+  _handleSignIn() async {
     if (!duIsEmail(_emailController.value.text)) {
       toastInfo(msg: '请正确输入邮件');
       return;
@@ -27,6 +29,14 @@ class _SignInPageState extends State<SignInPage> {
       toastInfo(msg: '密码不能小于6位');
       return;
     }
+
+    UserRequestEntity params = UserRequestEntity(
+      email: _emailController.value.text,
+      password: duSHA256(_passwordController.value.text),
+    );
+
+    UserResponseEntity res = await UserAPI.login(params: params);
+    print("$res");
   }
 
   //logo
